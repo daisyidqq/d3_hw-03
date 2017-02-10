@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+    
+    <input type="button" value="新增" onclick="update()"/>
+    <input type="button" value="刪除" onclick="remove()"/>
+    
+    <script>
+        var arr = [85, 60, 99, 49, 77, 82];
+        var w=900;
+        var h=300;
+        var padding=100;
+        
+        svg();
+        bind(arr);
+        render();
+        
+        bind_t(arr);
+        render_t();
+        
+        function svg(){
+            d3.select("body")
+              .append("svg")
+              .attr({
+                width: w,
+                height: h
+            });
+        }
+        
+        function bind(dataSet){
+            var selection = d3.select("svg")
+                              .selectAll("rect")
+                              .data(dataSet);
+            selection.enter()
+                     .append("rect");
+            
+            selection.exit().remove();
+        }
+        
+        function render(){
+            d3.selectAll("rect")
+              .attr({
+                x: function(d, i){ return (padding + i * 42);},
+                y: function(d){ return (h-padding-d);},
+                width: 40,
+                height: function(d){ return d;},
+                fill: function(d){ return (d<70) ? "red" : "lightgreen"; }
+            });
+        }
+        
+        function bind_t(dataSet){
+            var selection = d3.select("svg")
+                              .selectAll("text")
+                              .data(dataSet);
+            selection.enter()
+                     .append("text");
+            
+            selection.exit().remove();
+        }
+        function render_t(){
+            d3.selectAll("text")
+              .text(function(d){ return d; })
+              .attr({
+                x: function(d, i){ return (padding + i * 42+10);},
+                y: h - padding + 20,
+                "font-size": 20
+            });
+        }
+        
+        function update(){
+            var num = random(0, 100);
+            arr.push(num);
+            
+            bind(arr);
+            render();
+
+            bind_t(arr);
+            render_t();
+        }
+        
+        function random(M, N){
+            return Math.floor(Math.random()*(N-M)+M);
+        }
+  
+        function remove(){
+            arr.shift();
+            
+            bind(arr);
+            render();
+
+            bind_t(arr);
+            render_t();
+        }
+        
+    </script>
+
+
+</body>
+</html>
