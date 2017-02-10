@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+    <div></div>
+    <div></div>
+    
+    <script>
+        var arr = [85, 60, 99, 49, 77, 82];
+        
+        bind(arr);
+        render();
+        
+        function bind(dataSet){
+            var selection = d3.select("body")
+                              .selectAll("div")
+                              .data(dataSet);
+            selection.enter()
+                     .append("div");
+            
+            selection.exit().remove();
+        }
+        
+        function render(){
+            d3.select("body")
+              .selectAll("div")
+              .text(FormatDivText)
+              .style({
+                color: FormatDivFontColor
+            });
+        }
+        
+        function FormatDivText(d, i){
+            return i + ":" + d
+        }
+        
+        function FormatDivFontColor(d){
+            return (d < 70) ? "red" : "black";
+        }
+
+    </script>
+
+
+</body>
+</html>
